@@ -13,6 +13,7 @@ list_start_word.append("Oi")
 list_start_word.append("Eh")
 list_start_word.append("Wahlao")
 list_start_word.append("LMAO")
+list_start_word.append("Aiyo")
 
 list_end_word = []
 list_end_word.append("bro")
@@ -20,6 +21,7 @@ list_end_word.append("sis")
 list_end_word.append("sia")
 list_end_word.append("lor")
 list_end_word.append("LOL")
+list_end_word.append("ah")
 
 
 def start(update, context):
@@ -33,8 +35,17 @@ def help(update, context):
 def echo(update, context):
     start = random.choice(list_start_word)
     end = random.choice(list_end_word)
-    res = res = update.message.text[0].lower() + update.message.text[1:]
-    update.message.reply_text(start + ' ' + res + ' ' + end)
+    message = update.message.text
+    response = ""
+    sentence_ending_punctuation = ['!', '?', '.']
+    if message[-1] in sentence_ending_punctuation:
+        response = start + " " + update.message.text[0].lower(
+        ) + update.message.text[1:-1] + " " + end + update.message.text[-1]
+    else:
+        response = start + " " + \
+            update.message.text[0].lower(
+            ) + update.message.text[1:] + " " + end
+    update.message.reply_text(response)
 
 
 def error(update, context):
